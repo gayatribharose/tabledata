@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/style.css">
+
+</head>
+<body>
+    <h1>Expensive Form</h1>
+    
+    <form action="/expensive" method="post">
+        <label for="">Amount</label>
+    <input type="text" name="amount"  required>
+    <label for="">Reason</label>
+    <input type="text" name="reason" required>
+    <label for="">Date</label>
+    <input type="date" name="date" required>
+    <input type="submit" value="Submit">
+    </form>
+    <h2>Expenses List</h2>
+    
+<form method="get" action="/expensive">
+        <input 
+            type="text" 
+            name="search" 
+            placeholder="Search by date.,reason,amount.." 
+            value="<%= search || '' %>"/>
+        <button type="submit">Search</button>
+    </form>
+
+     <% if(expenses.length>0){ %>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Amount</th>
+                    <th>Reason</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+           <tbody>
+            <% expenses.forEach((exp )=> { %>
+              <tr>
+                <td><%= exp.amount %></td>
+                <td><%= exp.reason %></td>
+                <td><%= exp.date %></td>
+              </tr>
+          <%  }) %>
+           </tbody>
+        </table>
+       <% } else {  %>
+          <p>No expenses submitted yet.</p>
+     <%  } %>
+  
+      <script>
+        const searchBar = document.getElementById("searchBar");
+        const rows = document.querySelectorAll("#expensesTable tbody tr");
+
+        searchBar.addEventListener("input", () => {
+            const searchValue = searchBar.value.toLowerCase();
+            rows.forEach(row => {
+                const text = row.innerText.toLowerCase();
+                row.style.display = text.includes(searchValue) ? "" : "none";
+            });
+        });
+    </script>
+</body>
+</html>
